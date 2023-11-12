@@ -1,0 +1,28 @@
+#circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #2D4671;
+    position: relative;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#position {
+    padding: 0;
+    margin: 10px 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+button {
+    background-color: #2D4671;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+}
