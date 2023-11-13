@@ -1,103 +1,46 @@
-const circle = document.querySelector('#circle')
 const resetBtn = document.querySelector('#reset')
-const positionTxt = document.querySelector('#position')
-let moveCircle;
+const position = document.querySelector('#position')
+const field = document.querySelector('#field')
+const maxWidth = field.clientWidth - 50
+const maxHeight = field.clientHeight - 50
+const circle = document.querySelector('.circle')
 
-let posX = 200
-let posY = 200
+let posX = 0;
+let posY = 0;
+const stepSize = 5;
 
-circle.style.top = posY + 'px'
-circle.style.left = posX + 'px'
+document.addEventListener('keydown', moveShape)
+resetBtn.addEventListener('click', function () {
+    posX = 0;
+    posY = 0;
+    circle.style.top = posY + 'px';
+    circle.style.left = posX + 'px';
+    updatePosition();
+})
 
-
-function moveRight() {
-    posX++
-    circle.style.left = posX + 'px'
-    getPos(circle)
-    if (posX === window.innerWidth + 110) {
-        console.log('true')
-        clearInterval(moveCircle)
-    }
-}
-
-function moveLeft() {
-    posX--
-    circle.style.left = posX + 'px'
-    getPos(circle)
-    if (posX === window.innerWidth - 110) {
-        console.log('true')
-        clearInterval(moveCircle)
-    }
-}
-
-function moveUp() {
-    posY--
-    circle.style.top = posY + 'px'
-    getPos(circle)
-    if (posY === window.innerWidth - 110) {
-        console.log('true')
-        clearInterval(moveCircle)
-    }
-}
-
-function moveDown() {
-    posY++
-    circle.style.top = posY + 'px'
-    getPos(circle)
-    if (posY === window.innerHeight + 110) {
-        console.log('true')
-        clearInterval(moveCircle)
-    }
-}
-
-const stop = e => {
-    switch (e.key) {
-        case 'a':
-        case 'd':
+function moveShape(event) {
+    switch (event.key) {
         case 'w':
+            posY = Math.max(0, posY - stepSize);
+            break;
         case 's':
-            clearInterval(moveCircle)
-            break
+            posY = Math.min(maxHeight, posY + stepSize)
+            break;
+        case 'a':
+            posX = Math.max(0, posX - stepSize)
+            break;
+        case 'd':
+            posX = Math.min(maxWidth, posX + stepSize)
+            break;
+        default:
+            return;
     }
+    circle.style.top = posY + 'px';
+    circle.style.left = posX + 'px';
+    updatePosition()
+
 }
 
-
-let timeout = 100
-const start = e => {
-    if (!e.repeat) {
-        switch (e.key) {
-            case 'd':
-                console.log('hold key ', e.key)
-                moveCircle = setInterval(moveRight, timeout)
-                break
-            case 'a':
-                console.log('hold key ', e.key)
-                moveCircle = setInterval(moveLeft, timeout)
-                break
-            case 'w':
-                console.log('hold key ', e.key)
-                moveCircle = setInterval(moveUp, timeout)
-                break
-            case 's':
-                console.log('hold key ', e.key)
-                moveCircle = setInterval(moveDown, timeout)
-                break
-
-        }
-    }
+function updatePosition() {
+    position.textContent = `Position: (${posX}px, ${posY}px)`;
 }
-const reset = e => {
-    circle.style.left = 200 + 'px'
-    circle.style.top = 200 + 'px'
-}
-
-function getPos(e) {
-    for (const attr of e.attributes) {
-        positionTxt.textContent = `${attr.textContent}`
-    }
-}
-
-
-document.addEventListener('keyup', stop)
-document.addEventListener('keydown', start)
-resetBtn.addEventListener('click', reset)
