@@ -9,6 +9,10 @@
     background: black;
 }
 
+#score {
+
+}
+
 .blank {
     background-color: black;
 }
@@ -22,10 +26,18 @@
     border: 1px solid blue;
 }
 
+.dot {
+    background: white;
+    border: 8px solid black;
+    border-radius: 50%;
+}
+
 .pacman {
     background: yellow;
     border: none;
     border-radius: 50%;
+    width: 20px;
+    height: 20px;
     clip-path: polygon(
             0 0,
             20px 0,
@@ -35,7 +47,7 @@
             20px 20px,
             0 20px
     );
-    animation: chew 0.2s linear forwards infinite;
+    animation: chew 0.35s linear forwards infinite;
 }
 
 @keyframes chew {

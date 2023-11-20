@@ -2,12 +2,12 @@ import {DIRECTIONS, OBJECT_TYPE} from "./setup.js";
 
 class Character {
 
-    constructor(speed, pos) {
+    constructor(speed, pos, div) {
         this.speed = speed
         this.pos = pos
         this.currentDir = DIRECTIONS.d
-        this.nextDir = DIRECTIONS.w
-        this.div = undefined
+        this.nextDir = DIRECTIONS.d
+        this.div = div
         this.transition = 0
     }
 }
@@ -26,7 +26,7 @@ class Pacman extends Character {
     }
 
 
-    animate(objectExist) {
+    animate() {
         if (this.transition < 100) {
             switch (this.currentDir.movement) {
                 case DIRECTIONS.a.movement:
@@ -67,14 +67,11 @@ class Pacman extends Character {
         if (this.transition === 0) {
             const nextMovePos = this.pos + dir.movement;
             if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-                console.log('wall')
             } else {
-                console.log('change 1')
                 this.currentDir = dir;
                 this.nextDir = dir
             }
         } else {
-            console.log('change 2')
             this.nextDir = dir
         }
     }

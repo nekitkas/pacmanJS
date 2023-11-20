@@ -16,6 +16,7 @@ class GameField {
         this.DOMGrid.innerHTML = ''
         this.DOMGrid.style.cssText = `grid-template-columns: repeat(${GRID_SIZE}, ${CELL_SIZE}px);`
         this.grid = []
+        this.dotCount = 0
 
         level.forEach((square) => {
             const div = document.createElement('div')
@@ -23,7 +24,10 @@ class GameField {
             div.style.cssText = `width: ${CELL_SIZE}px; height: ${CELL_SIZE}px;`
             this.DOMGrid.appendChild(div)
             this.grid.push(div)
+
+            if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++
         })
+        console.log(this.dotCount)
     }
 
     addObject(pos, obj) {
@@ -45,7 +49,7 @@ class GameField {
 
             if (nextMovePos === character.pos) {
 
-            } else if (character.animate(this.objectExist.bind(this))) {
+            } else if (character.animate()) {
                 this.removeObject(character.pos, classToRemove);
                 this.grid[character.pos].style.transform = 'none'
                 this.addObject(nextMovePos, classToAdd);
@@ -54,23 +58,21 @@ class GameField {
                 if (character.currentDir !== character.nextDir) {
                     let nextMovePos = character.pos + character.nextDir.movement
                     if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-                        //this.nextDir = this.currentDir
-                        console.log('change 3')
                         character.currentDir = character.nextDir
                         character.animate(this.objectExist.bind(this))
                     }
                 }
             }
-            // else {
-            //     if (character.dir !== character.nextDirection) {
-            //         const nextMovePos = character.pos + character.nextDirection.movement
-            //         if (this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-            //             console.log('wall')
-            //         } else {
-            //             character.dir = character.nextDirection
-            //         }
-            //     }
-            // }
+        }
+    }
+
+    checkCollision(character, obj) {
+        if (this.objectExist(character.pos, obj)) {
+            console.log('1')
+            this.removeObject(character.pos, [OBJECT_TYPE.DOT])
+            this.dotCount--
+            console.log('dot eaten')
+            
         }
     }
 }

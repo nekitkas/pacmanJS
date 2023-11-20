@@ -4,25 +4,20 @@ import Pacman from "./character.js";
 
 const DOMGrid = document.querySelector('#field');
 const startBtn = document.querySelector('#start-btn')
-const coordinates = document.querySelector('#coordinates')
-const test = document.querySelector('#test')
+const score = document.querySelector('#score')
 
 const gameField = field.createGameField(DOMGrid, LEVEL)
-const pacman = new Pacman(10, 73)
-let lastTime
+gameField.addObject(73, [OBJECT_TYPE.PACMAN])
+const pacman = new Pacman(5, 73, document.querySelector('.pacman'))
 
-function gameLoop(time) {
-    const delta = time - lastTime
-    pacman.div = document.querySelector('.pacman')
+function gameLoop() {
+    //pacman.div = document.querySelector('.pacman')
     gameField.moveCharacter(pacman)
-    test.innerText = pacman.transition
-    console.log(`dir :${pacman.currentDir.movement}, nextDir :${pacman.nextDir.movement}`)
-    lastTime = time
+    gameField.checkCollision(pacman, [OBJECT_TYPE.DOT])
     requestAnimationFrame(gameLoop)
 }
 
 function start() {
-    gameField.addObject(73, [OBJECT_TYPE.PACMAN])
     document.addEventListener('keydown', (e) => {
         pacman.handleInput(e, gameField.objectExist.bind(gameField))
     })

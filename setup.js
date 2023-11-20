@@ -19,19 +19,21 @@ export const DIRECTIONS = {
 export const OBJECT_TYPE = {
     BLANK: 'blank',
     WALL: 'wall',
-    PACMAN: 'pacman'
+    PACMAN: 'pacman',
+    DOT: 'dot'
 }
 
 export const CLASS_LIST = [
     OBJECT_TYPE.BLANK,
     OBJECT_TYPE.WALL,
-    OBJECT_TYPE.PACMAN
+    OBJECT_TYPE.PACMAN,
+    OBJECT_TYPE.DOT
 ]
 
 export const LEVEL = [
     1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 0, 0, 0, 0, 0, 0, 0, 1,
-    1, 0, 1, 1, 1, 0, 1, 0, 1,
+    1, 3, 3, 3, 3, 3, 3, 3, 1,
+    1, 3, 1, 1, 1, 0, 1, 3, 1,
     1, 0, 0, 0, 0, 0, 1, 0, 1,
     1, 0, 1, 1, 1, 0, 1, 0, 1,
     1, 0, 1, 0, 0, 0, 0, 0, 1,
