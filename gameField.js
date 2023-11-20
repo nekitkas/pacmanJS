@@ -46,15 +46,13 @@ class GameField {
         if (character.shouldMove()) {
             const {nextMovePos, direction} = character.getNextMove(this.objectExist.bind(this));
             const {classToRemove, classToAdd} = character.makeMove();
-
             if (nextMovePos === character.pos) {
 
             } else if (character.animate()) {
                 this.removeObject(character.pos, classToRemove);
-                this.grid[character.pos].style.transform = 'none'
+                this.grid[character.pos].style.transform = `none`
                 this.addObject(nextMovePos, classToAdd);
-                character.setNewPos(nextMovePos, direction)
-                character.setNewDiv(document.querySelector('.pacman'))
+                character.setNewPos(nextMovePos, document.querySelector('.pacman'))
                 if (character.currentDir !== character.nextDir) {
                     let nextMovePos = character.pos + character.nextDir.movement
                     if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
@@ -68,11 +66,10 @@ class GameField {
 
     checkCollision(character, obj) {
         if (this.objectExist(character.pos, obj)) {
-            console.log('1')
             this.removeObject(character.pos, [OBJECT_TYPE.DOT])
             this.dotCount--
             console.log('dot eaten')
-            
+
         }
     }
 }

@@ -30,16 +30,16 @@ class Pacman extends Character {
         if (this.transition < 100) {
             switch (this.currentDir.movement) {
                 case DIRECTIONS.a.movement:
-                    this.div.style.transform = `translateX(${-this.transition}%)`
+                    this.div.style.transform = `translateX(${-this.transition}%) rotate(${this.currentDir.rotate}deg)`
                     break
                 case DIRECTIONS.d.movement:
-                    this.div.style.transform = `translateX(${this.transition}%)`
+                    this.div.style.transform = `translateX(${this.transition}%) rotate(${this.currentDir.rotate}deg)`
                     break
                 case DIRECTIONS.w.movement:
-                    this.div.style.transform = `translateY(${-this.transition}%)`
+                    this.div.style.transform = `translateY(${-this.transition}%) rotate(${this.currentDir.rotate}deg)`
                     break
                 case DIRECTIONS.s.movement:
-                    this.div.style.transform = `translateY(${this.transition}%)`
+                    this.div.style.transform = `translateY(${this.transition}%) rotate(${this.currentDir.rotate}deg)`
                     break
             }
             this.transition += this.speed
@@ -83,13 +83,12 @@ class Pacman extends Character {
         return {classToRemove, classToAdd}
     }
 
-    setNewPos(nextMovePos) {
+    setNewPos(nextMovePos, newDiv) {
         this.pos = nextMovePos
+        this.div = newDiv
+        this.div.style.transform = `rotate(${this.currentDir.rotate}deg)`
     }
 
-    setNewDiv(newDiv) {
-        this.div = newDiv
-    }
 }
 
 class Ghost extends Character {

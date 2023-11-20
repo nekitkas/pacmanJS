@@ -11,7 +11,6 @@ gameField.addObject(73, [OBJECT_TYPE.PACMAN])
 const pacman = new Pacman(5, 73, document.querySelector('.pacman'))
 
 function gameLoop() {
-    //pacman.div = document.querySelector('.pacman')
     gameField.moveCharacter(pacman)
     gameField.checkCollision(pacman, [OBJECT_TYPE.DOT])
     requestAnimationFrame(gameLoop)

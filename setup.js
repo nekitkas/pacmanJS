@@ -4,15 +4,19 @@ export const CELL_SIZE = 20
 export const DIRECTIONS = {
     a: {
         movement: -1,
+        rotate: 180,
     },
     w: {
         movement: -GRID_SIZE,
+        rotate: 270,
     },
     d: {
         movement: 1,
+        rotate: 0,
     },
     s: {
         movement: GRID_SIZE,
+        rotate: 90,
     }
 }
 
@@ -39,6 +43,6 @@ export const LEVEL = [
     1, 0, 1, 0, 0, 0, 0, 0, 1,
     1, 0, 1, 0, 1, 1, 1, 0, 1,
     1, 0, 1, 0, 1, 0, 0, 0, 1,
-    1, 0, 0, 0, 1, 1, 1, 1, 1,
+    1, 0, 0, 0, 3, 3, 3, 3, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1,
 ]
