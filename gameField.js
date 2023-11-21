@@ -1,9 +1,10 @@
-import {CELL_SIZE, CLASS_LIST, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
+import {CELL_SIZE, CLASS_LIST, eatDot, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
 
 class GameField {
     constructor(DOMGrid) {
         this.DOMGrid = DOMGrid
         this.grid = []
+        this.score = 0
     }
 
     static createGameField(DOMGrid, level) {
@@ -27,7 +28,6 @@ class GameField {
 
             if (CLASS_LIST[square] === OBJECT_TYPE.DOT) this.dotCount++
         })
-        console.log(this.dotCount)
     }
 
     addObject(pos, obj) {
@@ -52,7 +52,10 @@ class GameField {
                 this.removeObject(character.pos, classToRemove);
                 this.grid[character.pos].style.transform = `none`
                 this.addObject(nextMovePos, classToAdd);
-                character.setNewPos(nextMovePos, document.querySelector('.pacman'))
+                let name = '.' + character.name
+                console.log(document.querySelector(name))
+                character.setNewPos(nextMovePos, document.querySelector(name))
+                console.log(name)
                 if (character.currentDir !== character.nextDir) {
                     let nextMovePos = character.pos + character.nextDir.movement
                     if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
@@ -68,8 +71,9 @@ class GameField {
         if (this.objectExist(character.pos, obj)) {
             this.removeObject(character.pos, [OBJECT_TYPE.DOT])
             this.dotCount--
-            console.log('dot eaten')
-
+            this.score += 50
+            document.querySelector('#score').innerText = `Score: ${this.score}`
+            eatDot.play()
         }
     }
 }

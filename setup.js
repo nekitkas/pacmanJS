@@ -24,14 +24,16 @@ export const OBJECT_TYPE = {
     BLANK: 'blank',
     WALL: 'wall',
     PACMAN: 'pacman',
-    DOT: 'dot'
+    DOT: 'dot',
+    BLINKY: 'blinky'
 }
 
 export const CLASS_LIST = [
     OBJECT_TYPE.BLANK,
     OBJECT_TYPE.WALL,
     OBJECT_TYPE.PACMAN,
-    OBJECT_TYPE.DOT
+    OBJECT_TYPE.DOT,
+    OBJECT_TYPE.BLINKY
 ]
 
 export const LEVEL = [
@@ -46,3 +48,5 @@ export const LEVEL = [
     1, 0, 0, 0, 3, 3, 3, 3, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1,
 ]
+
+export const eatDot = new Audio('sounds/credit.wav')

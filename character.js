@@ -2,7 +2,8 @@ import {DIRECTIONS, OBJECT_TYPE} from "./setup.js";
 
 class Character {
 
-    constructor(speed, pos, div) {
+    constructor(name, speed, pos, div) {
+        this.name = name
         this.speed = speed
         this.pos = pos
         this.currentDir = DIRECTIONS.d
@@ -10,9 +11,7 @@ class Character {
         this.div = div
         this.transition = 0
     }
-}
 
-class Pacman extends Character {
     getNextMove(objectExist) {
         let nextMovePos = this.pos + this.currentDir.movement
         if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
@@ -21,10 +20,10 @@ class Pacman extends Character {
         return {nextMovePos, direction: this.currentDir}
     }
 
+
     shouldMove() {
         return this.currentDir !== null;
     }
-
 
     animate() {
         if (this.transition < 100) {
@@ -49,6 +48,22 @@ class Pacman extends Character {
             return true
         }
     }
+
+    makeMove() {
+        const classToRemove = [OBJECT_TYPE.PACMAN]
+        const classToAdd = [OBJECT_TYPE.PACMAN]
+
+        return {classToRemove, classToAdd}
+    }
+
+    setNewPos(nextMovePos, newDiv) {
+        this.pos = nextMovePos
+        this.div = newDiv
+        this.div.style.transform = `rotate(${this.currentDir.rotate}deg)`
+    }
+}
+
+export class Pacman extends Character {
 
 
     handleInput = (e, objectExist) => {
@@ -76,22 +91,8 @@ class Pacman extends Character {
         }
     }
 
-    makeMove() {
-        const classToRemove = [OBJECT_TYPE.PACMAN]
-        const classToAdd = [OBJECT_TYPE.PACMAN]
-
-        return {classToRemove, classToAdd}
-    }
-
-    setNewPos(nextMovePos, newDiv) {
-        this.pos = nextMovePos
-        this.div = newDiv
-        this.div.style.transform = `rotate(${this.currentDir.rotate}deg)`
-    }
-
 }
 
-class Ghost extends Character {
-}
+export class Ghost extends Character {
 
-export default Pacman
+}
