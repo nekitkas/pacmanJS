@@ -1,4 +1,4 @@
-import {CELL_SIZE, CLASS_LIST, eatDot, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
+import {CELL_SIZE, CLASS_LIST, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
 
 class GameField {
     constructor(DOMGrid) {
@@ -42,28 +42,36 @@ class GameField {
         this.grid[pos].classList.remove(...object)
     }
 
-    moveCharacter(character) {
-        if (character.shouldMove()) {
-            const {nextMovePos, direction} = character.getNextMove(this.objectExist.bind(this));
-            const {classToRemove, classToAdd} = character.makeMove();
-            if (nextMovePos === character.pos) {
+    movePacman(pacman) {
+        const {nextMovePos, direction} = pacman.getNextMove(this.objectExist.bind(this));
+        pacman.currentDir = direction
+        if (nextMovePos === pacman.pos) {
 
-            } else if (character.animate()) {
-                this.removeObject(character.pos, classToRemove);
-                this.grid[character.pos].style.transform = `none`
-                this.addObject(nextMovePos, classToAdd);
-                let name = '.' + character.name
-                console.log(document.querySelector(name))
-                character.setNewPos(nextMovePos, document.querySelector(name))
-                console.log(name)
-                if (character.currentDir !== character.nextDir) {
-                    let nextMovePos = character.pos + character.nextDir.movement
-                    if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-                        character.currentDir = character.nextDir
-                        character.animate(this.objectExist.bind(this))
-                    }
+        } else if (pacman.animate()) {
+            this.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
+            this.grid[pacman.pos].style.transform = `none`
+            this.addObject(nextMovePos, [OBJECT_TYPE.PACMAN]);
+            pacman.setNewPos(nextMovePos, document.querySelector('.pacman'))
+            if (pacman.currentDir !== pacman.nextDir) {
+                let nextMovePos = pacman.pos + pacman.nextDir.movement
+                if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
+                    pacman.currentDir = pacman.nextDir
+                    pacman.animate(this.objectExist.bind(this))
                 }
             }
+        }
+
+    }
+
+    moveGhost(ghost) {
+        let {nextMovePos, direction} = ghost.getNextMove(this.objectExist.bind(this))
+        ghost.currentDir = direction
+        console.log(nextMovePos)
+        if (ghost.animate()) {
+            this.removeObject(ghost.pos, [OBJECT_TYPE.BLINKY])
+            this.grid[ghost.pos].style.transform = `none`
+            this.addObject(nextMovePos, [OBJECT_TYPE.BLINKY])
+            ghost.setNewPos(nextMovePos, document.querySelector('.blinky'))
         }
     }
 
@@ -73,7 +81,7 @@ class GameField {
             this.dotCount--
             this.score += 50
             document.querySelector('#score').innerText = `Score: ${this.score}`
-            eatDot.play()
+            //  eatDot.play()
         }
     }
 }

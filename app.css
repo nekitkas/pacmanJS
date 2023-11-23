@@ -35,6 +35,11 @@
     border-radius: 50%;
 }
 
+.blinky {
+    background: red !important;
+    border-radius: 75% !important;
+}
+
 .pacman {
     background: yellow;
     border: none;
@@ -51,10 +56,6 @@
             0 20px
     );
     animation: chew 0.35s linear forwards infinite;
-}
-
-.blinky {
-    background: red;
 }
 
 .test {

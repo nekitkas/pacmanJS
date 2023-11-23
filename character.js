@@ -3,26 +3,12 @@ import {DIRECTIONS, OBJECT_TYPE} from "./setup.js";
 class Character {
 
     constructor(name, speed, pos, div) {
-        this.name = name
         this.speed = speed
         this.pos = pos
         this.currentDir = DIRECTIONS.d
         this.nextDir = DIRECTIONS.d
         this.div = div
         this.transition = 0
-    }
-
-    getNextMove(objectExist) {
-        let nextMovePos = this.pos + this.currentDir.movement
-        if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-            nextMovePos = this.pos
-        }
-        return {nextMovePos, direction: this.currentDir}
-    }
-
-
-    shouldMove() {
-        return this.currentDir !== null;
     }
 
     animate() {
@@ -49,11 +35,12 @@ class Character {
         }
     }
 
-    makeMove() {
-        const classToRemove = [OBJECT_TYPE.PACMAN]
-        const classToAdd = [OBJECT_TYPE.PACMAN]
-
-        return {classToRemove, classToAdd}
+    getNextMove(objectExist) {
+        let nextMovePos = this.pos + this.currentDir.movement
+        if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
+            nextMovePos = this.pos
+        }
+        return {nextMovePos, direction: this.currentDir}
     }
 
     setNewPos(nextMovePos, newDiv) {
@@ -63,8 +50,39 @@ class Character {
     }
 }
 
-export class Pacman extends Character {
+export class Ghost extends Character {
 
+    constructor(name, speed, pos, div, movement) {
+        super(name, speed, pos, div);
+        this.movement = movement
+    }
+
+    getNextMove(objectExist) {
+        const {nextMovePos, direction} = this.movement(this.pos, this.currentDir, objectExist);
+        return {nextMovePos, direction};
+    }
+
+    // getNextMove(objectExist) {
+    //     let nextMovePos = this.pos + this.currentDir.movement
+    //     const keys = Object.keys(DIRECTIONS)
+    //     if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
+    //         const key = keys[Math.floor(Math.random() * keys.length)]
+    //         let dir = DIRECTIONS[key]
+    //         nextMovePos = this.pos + dir.movement
+    //     }
+    //     return {nextMovePos, direction: this.currentDir}
+    // }
+
+    makeMove() {
+        const classesToRemove = [OBJECT_TYPE.BLINKY];
+        let classesToAdd = [OBJECT_TYPE.BLINKY];
+
+        return {classesToRemove, classesToAdd};
+    }
+
+}
+
+export class Pacman extends Character {
 
     handleInput = (e, objectExist) => {
         let dir;
@@ -90,9 +108,4 @@ export class Pacman extends Character {
             this.nextDir = dir
         }
     }
-
-}
-
-export class Ghost extends Character {
-
 }
