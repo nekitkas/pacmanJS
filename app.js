@@ -7,16 +7,26 @@ const DOMGrid = document.querySelector('#field');
 const startBtn = document.querySelector('#start-btn')
 
 const gameField = field.createGameField(DOMGrid, LEVEL)
-gameField.addObject(73, [OBJECT_TYPE.PACMAN])
+gameField.addObject(93, [OBJECT_TYPE.PACMAN])
 gameField.addObject(31, [OBJECT_TYPE.BLINKY])
-const pacman = new Pacman('pacman', 5, 73, document.querySelector('.pacman'))
+gameField.addObject(28, [OBJECT_TYPE.PINKY])
+gameField.addObject(242, [OBJECT_TYPE.INKY])
+gameField.addObject(257, [OBJECT_TYPE.CLYDE]) // /2
+const pacman = new Pacman('pacman', 5, 93, document.querySelector('.pacman'))
+const ghosts = [
+    new Ghost('blinky', 5, 31, document.querySelector('.blinky'), randomMovement),
+    new Ghost('pinky', 5, 28, document.querySelector('.pinky'), randomMovement),
+    new Ghost('inky', 5, 242, document.querySelector('.inky'), randomMovement),
+    new Ghost('clyde', 5, 257, document.querySelector('.clyde'), randomMovement)
+]
 
-const blinky = new Ghost('blinky', 5, 31, document.querySelector('.blinky'), randomMovement)
 
 function gameLoop() {
-    gameField.movePacman(pacman)
+    gameField.moveChar(pacman)
     gameField.checkCollision(pacman, [OBJECT_TYPE.DOT])
-    gameField.moveGhost(blinky)
+    ghosts.forEach((ghost) => {
+        gameField.moveChar(ghost)
+    })
     requestAnimationFrame(gameLoop)
 }
 

@@ -1,4 +1,4 @@
-import {CELL_SIZE, CLASS_LIST, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
+import {CELL_SIZE, CLASS_LIST, eatDot, GRID_SIZE, OBJECT_TYPE,} from "./setup.js";
 
 class GameField {
     constructor(DOMGrid) {
@@ -30,6 +30,13 @@ class GameField {
         })
     }
 
+    mark() {
+        this.grid.forEach((el, index) => {
+            el.innerText = index
+            el.style.fontSize = 'small'
+        })
+    }
+
     addObject(pos, obj) {
         this.grid[pos].classList.add(...obj)
     }
@@ -42,38 +49,41 @@ class GameField {
         this.grid[pos].classList.remove(...object)
     }
 
-    movePacman(pacman) {
-        const {nextMovePos, direction} = pacman.getNextMove(this.objectExist.bind(this));
-        pacman.currentDir = direction
-        if (nextMovePos === pacman.pos) {
+    moveChar(character) {
+        const {nextMovePos, direction} = character.getNextMove(this.objectExist.bind(this));
+        const {classesToRemove, classesToAdd} = character.makeMove()
+        character.currentDir = direction
+        if (nextMovePos === character.pos) {
 
-        } else if (pacman.animate()) {
-            this.removeObject(pacman.pos, [OBJECT_TYPE.PACMAN]);
-            this.grid[pacman.pos].style.transform = `none`
-            this.addObject(nextMovePos, [OBJECT_TYPE.PACMAN]);
-            pacman.setNewPos(nextMovePos, document.querySelector('.pacman'))
-            if (pacman.currentDir !== pacman.nextDir) {
-                let nextMovePos = pacman.pos + pacman.nextDir.movement
+        } else if (character.animate()) {
+            this.removeObject(character.pos, classesToRemove);
+            this.grid[character.pos].style.transform = `none`
+            this.addObject(nextMovePos, classesToAdd);
+            let selector = `.${character.name}`
+            character.setNewPos(nextMovePos, document.querySelector(selector))
+            if (character.currentDir !== character.nextDir) {
+                let nextMovePos = character.pos + character.nextDir.movement
                 if (!this.objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-                    pacman.currentDir = pacman.nextDir
-                    pacman.animate(this.objectExist.bind(this))
+                    character.currentDir = character.nextDir
+                    character.animate(this.objectExist.bind(this))
                 }
             }
         }
 
     }
 
-    moveGhost(ghost) {
-        let {nextMovePos, direction} = ghost.getNextMove(this.objectExist.bind(this))
-        ghost.currentDir = direction
-        console.log(nextMovePos)
-        if (ghost.animate()) {
-            this.removeObject(ghost.pos, [OBJECT_TYPE.BLINKY])
-            this.grid[ghost.pos].style.transform = `none`
-            this.addObject(nextMovePos, [OBJECT_TYPE.BLINKY])
-            ghost.setNewPos(nextMovePos, document.querySelector('.blinky'))
-        }
-    }
+    // moveChar(ghost) {
+    //     let {nextMovePos, direction} = ghost.getNextMove(this.objectExist.bind(this))
+    //     ghost.currentDir = direction
+    //     console.log(nextMovePos)
+    //     if (ghost.animate()) {
+    //         this.removeObject(ghost.pos, [ghost.name])
+    //         this.grid[ghost.pos].style.transform = `none`
+    //         this.addObject(nextMovePos, [ghost.name])
+    //         let selector = `.${ghost.name}`
+    //         ghost.setNewPos(nextMovePos, document.querySelector(selector))
+    //     }
+    // }
 
     checkCollision(character, obj) {
         if (this.objectExist(character.pos, obj)) {
@@ -81,7 +91,7 @@ class GameField {
             this.dotCount--
             this.score += 50
             document.querySelector('#score').innerText = `Score: ${this.score}`
-            //  eatDot.play()
+            eatDot.play()
         }
     }
 }

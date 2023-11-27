@@ -37,7 +37,22 @@
 
 .blinky {
     background: red !important;
-    border-radius: 75% !important;
+    border-radius: 75%
+}
+
+.pinky {
+    background: #bf00ff !important;
+    border-radius: 75%
+}
+
+.inky {
+    background: #002aff !important;
+    border-radius: 75%
+}
+
+.clyde {
+    background: #11ff00 !important;
+    border-radius: 75%
 }
 
 .pacman {
@@ -56,6 +71,12 @@
             0 20px
     );
     animation: chew 0.35s linear forwards infinite;
+}
+
+.ghost {
+    position: relative;
+    border-radius: 10px 10px 2px 2px;
+    border: none;
 }
 
 .test {

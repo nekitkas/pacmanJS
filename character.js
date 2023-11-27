@@ -3,6 +3,7 @@ import {DIRECTIONS, OBJECT_TYPE} from "./setup.js";
 class Character {
 
     constructor(name, speed, pos, div) {
+        this.name = name
         this.speed = speed
         this.pos = pos
         this.currentDir = DIRECTIONS.d
@@ -48,6 +49,13 @@ class Character {
         this.div = newDiv
         this.div.style.transform = `rotate(${this.currentDir.rotate}deg)`
     }
+
+    makeMove() {
+        const classesToRemove = [this.name];
+        let classesToAdd = [this.name];
+
+        return {classesToRemove, classesToAdd};
+    }
 }
 
 export class Ghost extends Character {
@@ -62,20 +70,9 @@ export class Ghost extends Character {
         return {nextMovePos, direction};
     }
 
-    // getNextMove(objectExist) {
-    //     let nextMovePos = this.pos + this.currentDir.movement
-    //     const keys = Object.keys(DIRECTIONS)
-    //     if (objectExist(nextMovePos, OBJECT_TYPE.WALL)) {
-    //         const key = keys[Math.floor(Math.random() * keys.length)]
-    //         let dir = DIRECTIONS[key]
-    //         nextMovePos = this.pos + dir.movement
-    //     }
-    //     return {nextMovePos, direction: this.currentDir}
-    // }
-
     makeMove() {
-        const classesToRemove = [OBJECT_TYPE.BLINKY];
-        let classesToAdd = [OBJECT_TYPE.BLINKY];
+        const classesToRemove = [OBJECT_TYPE.GHOST, this.name];
+        let classesToAdd = [OBJECT_TYPE.GHOST, this.name];
 
         return {classesToRemove, classesToAdd};
     }
