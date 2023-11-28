@@ -1,10 +1,19 @@
-import {CELL_SIZE, CLASS_LIST, eatDot, GRID_SIZE, OBJECT_TYPE,} from "./setup.js";
+import {CELL_SIZE, CLASS_LIST, eatDot, GRID_SIZE, OBJECT_TYPE} from "./setup.js";
 
 class GameField {
     constructor(DOMGrid) {
         this.DOMGrid = DOMGrid
         this.grid = []
         this.score = 0
+        this._pause = true
+    }
+
+    get pause() {
+        return this._pause
+    }
+
+    set pause(value) {
+        this._pause = value;
     }
 
     static createGameField(DOMGrid, level) {
@@ -36,6 +45,7 @@ class GameField {
             el.style.fontSize = 'small'
         })
     }
+
 
     addObject(pos, obj) {
         this.grid[pos].classList.add(...obj)
@@ -71,19 +81,6 @@ class GameField {
         }
 
     }
-
-    // moveChar(ghost) {
-    //     let {nextMovePos, direction} = ghost.getNextMove(this.objectExist.bind(this))
-    //     ghost.currentDir = direction
-    //     console.log(nextMovePos)
-    //     if (ghost.animate()) {
-    //         this.removeObject(ghost.pos, [ghost.name])
-    //         this.grid[ghost.pos].style.transform = `none`
-    //         this.addObject(nextMovePos, [ghost.name])
-    //         let selector = `.${ghost.name}`
-    //         ghost.setNewPos(nextMovePos, document.querySelector(selector))
-    //     }
-    // }
 
     checkCollision(character, obj) {
         if (this.objectExist(character.pos, obj)) {
